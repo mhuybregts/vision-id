@@ -1,0 +1,27 @@
+@startuml vision-id-class
+class FaceRec {
+    void chooseAnalyzer(int type)
+    image generateFrame(image)
+}
+
+class Analyzer {
+    knownFacesDir: str
+    image analyzeFrame(image)
+}
+
+class Draw {
+    image drawBorder(image, tuple tl, tuple br)
+}
+
+class ImageAnalyzer
+class VideoAnalyzer
+class LiveAnalyzer
+
+FaceRec o-- Analyzer
+
+Analyzer o- Draw
+
+Analyzer <|-- ImageAnalyzer
+Analyzer <|-- VideoAnalyzer
+Analyzer <|-- LiveAnalyzer
+@enduml
