@@ -1,0 +1,35 @@
+@startuml image-sequence
+
+actor User
+activate User
+activate GUI
+
+User -> GUI : uploadVideo(videoFile)
+User -> GUI : playVideo()
+
+GUI -> VideoAnalyzer : analyzeVideo()
+activate VideoAnalyzer
+
+loop length of video
+    VideoAnalyzer -> Analyzer : analyzeFrame(image)
+    activate Analyzer
+    Analyzer -> VideoAnalyzer : info(name, tl, br)
+    deactivate Analyzer
+
+    VideoAnalyzer -> Draw : draw(image, name, tl, br)
+    note left: tl: Top Left, br: Bottom Right
+    activate Draw
+    Draw -> VideoAnalyzer : newImage()
+    deactivate Draw
+    VideoAnalyzer -> GUI : newImage()
+    deactivate VideoAnalyzer
+    GUI -> User : displayImage()
+
+    opt pause video
+        User -> GUI : addFace(name)
+        GUI -> GUI : addKnownFace(image, name)
+        GUI -> User : response(status)
+    end
+end
+
+@enduml

@@ -1,27 +1,31 @@
 @startuml vision-id-class
-class FaceRec {
-    void chooseAnalyzer(int type)
+class GUI {
+    void chooseAnalyzer(type: int)
     image generateFrame(image)
+    void addFace(image, name: str)
 }
 
 class Analyzer {
-    knownFacesDir: str
+    {static} KNOWN_FACES_DIR: str
     image analyzeFrame(image)
 }
 
 class Draw {
-    image drawBorder(image, tuple tl, tuple br)
+    image drawBorder(image, tl: tuple, br: tuple)
 }
 
 class ImageAnalyzer
 class VideoAnalyzer
 class LiveAnalyzer
 
-FaceRec o-- Analyzer
+GUI o-- ImageAnalyzer
+GUI o-- VideoAnalyzer
+GUI o-- LiveAnalyzer
 
 Analyzer o- Draw
 
-Analyzer <|-- ImageAnalyzer
-Analyzer <|-- VideoAnalyzer
-Analyzer <|-- LiveAnalyzer
+ImageAnalyzer o-- Analyzer
+VideoAnalyzer o-- Analyzer
+LiveAnalyzer o-- Analyzer
+
 @enduml
