@@ -13,14 +13,14 @@ opt image analysis
     activate ImageAnalyzer
     ImageAnalyzer -> Analyzer : analyzeFrame(image)
     activate Analyzer
-    Analyzer -> ImageAnalyzer : info(name, tl, br)
-    deactivate Analyzer
     
-    ImageAnalyzer -> Draw : draw(image, name, tl, br)
+    Analyzer -> Draw : draw(image, name, tl, br)
     note left: tl: Top Left, br: Bottom Right
     activate Draw
-    Draw -> ImageAnalyzer : newImage()
+    Draw -> Analyzer : newImage()
     deactivate Draw
+    Analyzer -> ImageAnalyzer : newImage()
+    deactivate Analyzer
     ImageAnalyzer -> GUI : newImage()
     deactivate 
     GUI -> User : displayImage()

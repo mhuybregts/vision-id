@@ -1,4 +1,4 @@
-@startuml image-sequence
+@startuml video-sequence
 
 actor User
 activate User
@@ -13,14 +13,13 @@ activate VideoAnalyzer
 loop length of video
     VideoAnalyzer -> Analyzer : analyzeFrame(image)
     activate Analyzer
-    Analyzer -> VideoAnalyzer : info(name, tl, br)
-    deactivate Analyzer
-
-    VideoAnalyzer -> Draw : draw(image, name, tl, br)
+    Analyzer -> Draw : draw(image, name, tl, br)
     note left: tl: Top Left, br: Bottom Right
     activate Draw
-    Draw -> VideoAnalyzer : newImage()
+    Draw -> Analyzer : newImage()
     deactivate Draw
+    Analyzer -> VideoAnalyzer : newImage()
+    deactivate Analyzer
     VideoAnalyzer -> GUI : newImage()
     deactivate VideoAnalyzer
     GUI -> User : displayImage()

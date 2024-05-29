@@ -11,7 +11,7 @@ class Analyzer {
 }
 
 class Draw {
-    image drawBorder(image, tl: tuple, br: tuple)
+    image draw(image, tl: tuple, br: tuple)
 }
 
 class ImageAnalyzer
