@@ -1,22 +1,28 @@
 @startuml vision-id-class
 class GUI {
     void chooseAnalyzer(type: int)
-    image generateFrame(image)
-    void addFace(image, name: str)
+    image generateFrame(img: image)
+    void addFace(img: image, name: str)
 }
 
 class Analyzer {
     {static} KNOWN_FACES_DIR: str
-    image analyzeFrame(image)
+    image analyzeFrame(img: image)
 }
 
 class Draw {
-    image draw(image, tl: tuple, br: tuple)
+    image draw(img: image, tl: tuple, br: tuple)
 }
 
-class ImageAnalyzer
-class VideoAnalyzer
-class LiveAnalyzer
+class ImageAnalyzer {
+    image analyzeImage(img: image)
+}
+class VideoAnalyzer {
+    void analyzeVideo(vid: str)
+}
+class LiveAnalyzer {
+    void analyzeStream(src: int)
+}
 
 GUI o-- ImageAnalyzer
 GUI o-- VideoAnalyzer
