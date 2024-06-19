@@ -1,15 +1,9 @@
 import cv2
 
-FRAME_THICKNESS = 4
-FONT_THICKNESS = 1
-BLACK = [0, 0, 0]
-WHITE = [255, 255, 255]
-
 
 class Draw:
 
-    def __init__(self, color, frame_thickness, font_thickness):
-        self.color = color
+    def __init__(self, frame_thickness, font_thickness):
         self.frame_thickness = frame_thickness
         self.font_thickness = font_thickness
 
@@ -21,7 +15,7 @@ class Draw:
                           self.frame_thickness)
 
     def add_text(self, image, text, origin, color):
-        cv2.putText(image, text, origin, cv2.FONT_HERSHEY_SIMPLEX, 0.5, color,
+        cv2.putText(image, text, origin, cv2.FONT_HERSHEY_SIMPLEX, 0.3, color,
                     self.font_thickness)
 
     def to_bgr(image):
@@ -30,7 +24,12 @@ class Draw:
 
 if __name__ == "__main__":
 
-    draw = Draw(BLACK, FRAME_THICKNESS, FONT_THICKNESS)
+    FRAME_THICKNESS = 4
+    FONT_THICKNESS = 1
+    BLACK = [0, 0, 0]
+    WHITE = [255, 255, 255]
+
+    draw = Draw(FRAME_THICKNESS, FONT_THICKNESS)
     image = cv2.imread("test/draw_test.jpg")
 
     # NOTE: tl = Top Left, br = Bottom Right
