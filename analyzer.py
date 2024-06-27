@@ -30,7 +30,7 @@ class Analyzer:
                 self.known_faces.append(encdoding)
                 self.known_names.append(name)
 
-    def analyze_image(self, image):
+    def analyze_frame(self, image):
 
         locations = fr.face_locations(image, model=self.model)
         encodings = fr.face_encodings(image, locations)
@@ -43,6 +43,7 @@ class Analyzer:
             if True in results:
                 match = self.known_names[results.index(True)]
 
+                # NOTE: tl = Top Left, br = Bottom Right
                 tl = (face_location[3], face_location[0])
                 br = (face_location[1], face_location[2])
                 self.draw.draw_rectangle(image, tl, br, RED, filled=False)
@@ -55,9 +56,9 @@ class Analyzer:
                 org = (face_location[3] + 5, face_location[2] + 15)
                 self.draw.add_text(image, match, org, WHITE)
 
-                return image
+                break
 
-        return image
+        return Draw.to_rgb(image)
 
 
 if __name__ == "__main__":
@@ -71,12 +72,8 @@ if __name__ == "__main__":
 
     for filename in os.listdir("test/unknown_faces"):
         image = fr.load_image_file(f"test/unknown_faces/{filename}")
-        image = analyzer.analyze_image(image)
+        image = analyzer.analyze_frame(image)
 
-        try:
-            cv2.imshow(filename, image)
-            cv2.waitKey(0)
-            cv2.destroyWindow(filename)
-
-        except Exception:
-            continue
+        cv2.imshow(filename, image)
+        cv2.waitKey(0)
+        cv2.destroyWindow(filename)

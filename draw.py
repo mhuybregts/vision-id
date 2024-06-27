@@ -21,6 +21,9 @@ class Draw:
     def to_bgr(image):
         return cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
+    def to_rgb(image):
+        return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
 
 if __name__ == "__main__":
 
