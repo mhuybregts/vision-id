@@ -60,16 +60,16 @@ class Analyzer:
 
 if __name__ == "__main__":
 
-    KNOWN_FACES_DIR = "test/known_faces"
+    KNOWN_FACES_DIR = "known_faces"
     MODEL = "hog"  # cnn
     TOLERANCE = 0.6  # Default value is 0.6
 
     analyzer = Analyzer(KNOWN_FACES_DIR, MODEL, TOLERANCE)
     analyzer.load_faces()
 
-    for filename in os.listdir("test/unknown_faces"):
+    for filename in os.listdir("unknown_faces"):
 
-        image = fr.load_image_file(f"test/unknown_faces/{filename}")
+        image = fr.load_image_file(f"unknown_faces/{filename}")
         image = analyzer.analyze_frame(image)
         image = Draw.to_bgr(image)
 

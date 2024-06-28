@@ -19,7 +19,7 @@ class ImageAnalyzer():
 
 if __name__ == "__main__":
 
-    KNOWN_FACES_DIR = "test/known_faces"
+    KNOWN_FACES_DIR = "known_faces"
     MODEL = "hog"  # cnn
     TOLERANCE = 0.6  # Default value is 0.6
 
@@ -28,8 +28,8 @@ if __name__ == "__main__":
 
     image_analyzer = ImageAnalyzer(analyzer)
 
-    for filename in os.listdir("test/unknown_faces"):
-        image_path = f"test/unknown_faces/{filename}"
+    for filename in os.listdir("unknown_faces"):
+        image_path = f"unknown_faces/{filename}"
         image = image_analyzer.analyze_image(image_path)
         image.show()
         time.sleep(2)
