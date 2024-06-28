@@ -34,7 +34,6 @@ class Analyzer:
 
         locations = fr.face_locations(image, model=self.model)
         encodings = fr.face_encodings(image, locations)
-        image = Draw.to_bgr(image)
 
         for face_encoding, face_location in zip(encodings, locations):
             results = fr.compare_faces(self.known_faces, face_encoding,
@@ -56,9 +55,7 @@ class Analyzer:
                 org = (face_location[3] + 5, face_location[2] + 15)
                 self.draw.add_text(image, match, org, WHITE)
 
-                break
-
-        return Draw.to_rgb(image)
+        return image
 
 
 if __name__ == "__main__":
@@ -71,8 +68,10 @@ if __name__ == "__main__":
     analyzer.load_faces()
 
     for filename in os.listdir("test/unknown_faces"):
+
         image = fr.load_image_file(f"test/unknown_faces/{filename}")
         image = analyzer.analyze_frame(image)
+        image = Draw.to_bgr(image)
 
         cv2.imshow(filename, image)
         cv2.waitKey(0)
