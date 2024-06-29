@@ -8,7 +8,7 @@ FRAME_THICKNESS = 4
 FONT_THICKNESS = 1
 BLACK = [0, 0, 0]
 WHITE = [255, 255, 255]
-RED = [0, 255, 0]
+GREEN = [0, 255, 0]
 
 
 class Analyzer:
@@ -45,14 +45,13 @@ class Analyzer:
                 # NOTE: tl = Top Left, br = Bottom Right
                 tl = (face_location[3], face_location[0])
                 br = (face_location[1], face_location[2])
-                self.draw.draw_rectangle(image, tl, br, RED, filled=False)
+                self.draw.draw_rectangle(image, tl, br, GREEN, filled=False)
 
-                padding = FRAME_THICKNESS // 2
-                tl = (face_location[3] - padding, face_location[2])
-                br = (face_location[1] + padding, face_location[2] + 22)
-                self.draw.draw_rectangle(image, tl, br, RED, filled=True)
+                tl = (face_location[3] - 15, face_location[2])
+                br = (face_location[1] + 15, face_location[2] + 25)
+                self.draw.draw_rectangle(image, tl, br, GREEN, filled=True)
 
-                org = (face_location[3] + 5, face_location[2] + 15)
+                org = (face_location[3] - 10, face_location[2] + 15)
                 self.draw.add_text(image, match, org, WHITE)
 
         return image

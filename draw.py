@@ -15,7 +15,7 @@ class Draw:
                           self.frame_thickness)
 
     def add_text(self, image, text, origin, color):
-        cv2.putText(image, text, origin, cv2.FONT_HERSHEY_SIMPLEX, 0.4, color,
+        cv2.putText(image, text, origin, cv2.FONT_HERSHEY_COMPLEX, 0.4, color,
                     self.font_thickness)
 
     def to_bgr(image):
