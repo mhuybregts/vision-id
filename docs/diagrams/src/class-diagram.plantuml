@@ -1,37 +1,60 @@
 @startuml vision-id-class
-class GUI {
-    void chooseAnalyzer(type: int)
-    image generateFrame(img: image)
-    void addFace(img: image, name: str)
+class App {
+    -set_btn_defaults(void)
+
+    -set_image_buttons(void)
+    -add_face_dialog(void)
+    +get_image(void)
+    +analyze_image(filename: str)
+    +add_face(void)
+
+    -set_video_buttons(void)
+    -preview_video(filepath: str)
+    +get_video(void)
+    +analyze_video(void)
+    +pause(void)
+    -set_live_buttons(void)
+    -preview_live(void)
+    +get_live(void)
 }
 
 class Analyzer {
-    {static} KNOWN_FACES_DIR: str
-    image analyzeFrame(img: image)
+    -model: str
+    -tolerance: float
+    -known_faces: list
+    -known_names: list
+    -known_faces_dir: str
+    +load_faces(void)
+    +analyze_frame(img: image)
 }
 
 class Draw {
-    image draw(img: image, tl: tuple, br: tuple)
+    -frame_thickness: int
+    -font_thickness: int
+    +draw_rectangle(img: Image, tl: Point, br: Point, color: Scalar, filled: bool)
+    +add_text(img: Image, text: str, origin: Point, color: Scalar)
 }
 
 class ImageAnalyzer {
-    image analyzeImage(img: image)
+    +analyze_image(img: str): Image
 }
 class VideoAnalyzer {
-    void analyzeVideo(vid: str)
-}
-class LiveAnalyzer {
-    void analyzeStream(src: int)
+    -running: bool
+    -capture: VideoCapture
+    +get_frame(video: str | int): Image
+    +list_cameras(void): list
+    +load_video(video: str)
+    +load_live(feed: str)
+    +start_analyzing(frame: CTkFrame)
+    +stop_analyzing(void)
 }
 
-GUI o-- ImageAnalyzer
-GUI o-- VideoAnalyzer
-GUI o-- LiveAnalyzer
+App o-- ImageAnalyzer
+App o-- VideoAnalyzer
 
 Analyzer o- Draw
 
 ImageAnalyzer o-- Analyzer
 VideoAnalyzer o-- Analyzer
-LiveAnalyzer o-- Analyzer
 
 @enduml

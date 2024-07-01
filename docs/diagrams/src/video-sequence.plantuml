@@ -4,30 +4,36 @@ actor User
 activate User
 activate GUI
 
-User -> GUI : uploadVideo(videoFile)
-User -> GUI : playVideo()
+alt video analysis
+    User -> GUI : select video
+    GUI -> VideoAnalyzer : load_video(video)
+else live analysis
+    User -> GUI : select live
+    GUI -> VideoAnalyzer : load_live(feed)
+end
 
-GUI -> VideoAnalyzer : analyzeVideo()
 activate VideoAnalyzer
 
-loop length of video
-    VideoAnalyzer -> Analyzer : analyzeFrame(image)
+User -> GUI: play
+GUI -> VideoAnalyzer: start_analyzing(display)
+
+loop video/stream duration
+    
+    VideoAnalyzer -> Analyzer : analyze_frame(image)
     activate Analyzer
     Analyzer -> Draw : draw(image, name, tl, br)
     note left: tl: Top Left, br: Bottom Right
     activate Draw
-    Draw -> Analyzer : newImage()
+    Draw --> Analyzer
     deactivate Draw
-    Analyzer -> VideoAnalyzer : newImage()
+    Analyzer --> VideoAnalyzer
     deactivate Analyzer
-    VideoAnalyzer -> GUI : newImage()
-    deactivate VideoAnalyzer
-    GUI -> User : displayImage()
+    VideoAnalyzer -> GUI: update_display(image)
 
-    opt pause video
-        User -> GUI : addFace(name)
-        GUI -> GUI : addKnownFace(image, name)
-        GUI -> User : response(status)
+    opt
+        User -> GUI : pause
+        User -> GUI : add face
+        GUI -> GUI : add_face(name)
     end
 end
 

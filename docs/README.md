@@ -10,3 +10,5 @@ Based on this tutorial: https://pythonprogramming.net/facial-recognition-python/
 - face_recognition
 - face_recognition_models
 - setuptools
+- opencv-python
+- pygrabber (Windows)
