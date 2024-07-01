@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
         image = fr.load_image_file(f"unknown_faces/{filename}")
         image = analyzer.analyze_frame(image)
-        image = Draw.to_bgr(image)
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
         cv2.imshow(filename, image)
         cv2.waitKey(0)

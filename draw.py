@@ -18,12 +18,6 @@ class Draw:
         cv2.putText(image, text, origin, cv2.FONT_HERSHEY_COMPLEX, 0.4, color,
                     self.font_thickness)
 
-    def to_bgr(image):
-        return cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-
-    def to_rgb(image):
-        return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
 
 if __name__ == "__main__":
 
