@@ -11,11 +11,13 @@ from video_analyzer import VideoAnalyzer
 
 class App(ck.CTk):
 
-    frame_size = (960, 720)
     filename = None
     analyzer = Analyzer("known_faces", "hog", 0.6)
     image_analyzer = ImageAnalyzer(analyzer)
     video_analyzer = VideoAnalyzer(analyzer)
+
+    name_dialog = None
+    live_dialog = None
 
     def __init__(self):
         super().__init__()
@@ -29,7 +31,8 @@ class App(ck.CTk):
 
         # Display logo by default
         logo = Image.open("photos/vision-id.png")
-        self.display = ck.CTkImage(light_image=logo, size=self.frame_size)
+        self.display = ck.CTkImage(light_image=logo,
+                                   size=self.video_analyzer.frame_size)
         self.label = ck.CTkLabel(self, image=self.display, text='')
         self.label.grid(padx=20, pady=20, columnspan=3, sticky="ew")
 
@@ -51,13 +54,17 @@ class App(ck.CTk):
         self.button1.configure(text="Image", command=self.get_image)
         self.button2.configure(text="Video", command=self.get_video)
         self.button3.configure(text="Live", command=self.get_live)
+        if self.name_dialog is not None:
+            self.name_dialog.grid_forget()
+        if self.live_dialog is not None:
+            self.live_dialog.grid_forget()
 
     # Image Functions
 
     def analyze_image(self, filename):
         if filename is not None:
             img = self.image_analyzer.analyze_image(filename)
-            self.display.configure(light_image=img, size=img.size)
+            self.label.configure(image=ck.CTkImage(img, size=img.size))
 
     def add_face(self):
         name = self.name_entry.get()
@@ -99,13 +106,14 @@ class App(ck.CTk):
         self.button2.configure(text="Play", command=self.analyze_video)
 
     def analyze_video(self):
-        self.video_analyzer.start_analyzing(self.display)
+        self.video_analyzer.start_analyzing(self.label)
         self.button2.configure(text="Pause", command=self.pause)
 
     def preview_video(self, filepath):
         self.filename = filepath
-        frame = self.video_analyzer.get_frame(filepath)
-        self.display.configure(light_image=frame, size=self.frame_size)
+        frame = VideoAnalyzer.get_frame(filepath)
+        dimensions = min(frame.size, self.video_analyzer.frame_size)
+        self.label.configure(image=ck.CTkImage(frame, size=dimensions))
 
     def set_video_buttons(self):
         self.button1.configure(text="New Video", command=self.get_video)
@@ -123,8 +131,30 @@ class App(ck.CTk):
             self.preview_video(filename)
             self.video_analyzer.load_video(filename)
 
+    # Live Functions
+
+    def set_live_buttons(self):
+        self.button1.configure(text="New Feed", command=self.get_live)
+        self.button2.configure(text="Play", command=self.analyze_video)
+        self.button3.configure(text="Back", command=self.set_btn_defaults)
+
+    def preview_live(self):
+        source = self.menu.get()
+        device = self.video_analyzer.load_live(source)
+        frame = VideoAnalyzer.get_frame(device)
+        dimensions = min(frame.size, self.video_analyzer.frame_size)
+        self.label.configure(image=ck.CTkImage(frame, size=dimensions))
+
     def get_live(self):
-        print("Live button pressed")
+        self.set_live_buttons()
+        self.live_dialog = ck.CTkFrame(self)
+        self.live_dialog.grid(row=2, column=0, pady=5)
+        cams = self.video_analyzer.list_cameras()
+        self.menu = ck.CTkComboBox(self.live_dialog, values=cams, width=200)
+        self.live_button = ck.CTkButton(self.live_dialog, text="Add",
+                                        command=self.preview_live, width=50)
+        self.menu.grid(row=0, column=0, padx=1)
+        self.live_button.grid(row=0, column=1, padx=1)
 
 
 if __name__ == "__main__":
