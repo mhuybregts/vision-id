@@ -6,9 +6,9 @@ from draw import Draw
 
 FRAME_THICKNESS = 4
 FONT_THICKNESS = 1
-BLACK = [0, 0, 0]
-WHITE = [255, 255, 255]
-GREEN = [0, 255, 0]
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
 
 
 class Analyzer:

@@ -27,6 +27,7 @@ class App(ck.CTk):
 
         # Initialize
         self.title("Vision ID")
+        self.after(0, lambda: self.state('zoomed'))
         self.grid_columnconfigure(0, weight=1)
 
         # Display logo by default
