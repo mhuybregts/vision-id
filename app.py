@@ -184,5 +184,9 @@ class App(ck.CTk):
 
 
 if __name__ == "__main__":
+
+    if not os.path.exists("known_faces"):
+        os.mkdir("known_faces")
+
     app = App()
     app.mainloop()
