@@ -1,6 +1,6 @@
 import cv2
 from threading import Thread
-from PIL import Image, ImageTk
+from PIL import Image
 
 import customtkinter as ck
 from pygrabber.dshow_graph import FilterGraph
@@ -17,7 +17,7 @@ class VideoAnalyzer():
         self.analyzer = analyzer
         self.running = False
 
-    def get_frame(video: str | int) -> Image:
+    def get_frame(video: str | int) -> Image.Image:
         capture = cv2.VideoCapture(video)
         ret, frame = capture.read()
         if ret:
@@ -36,7 +36,7 @@ class VideoAnalyzer():
         self.capture = cv2.VideoCapture(device)
         return device
 
-    def analyze(self, frame: ck.CTkImage):
+    def analyze(self, frame: ck.CTkLabel):
         while self.running:
             ret, image = self.capture.read()
             if ret:
@@ -44,7 +44,7 @@ class VideoAnalyzer():
                 img = Image.fromarray(cv2.cvtColor(new_image,
                                                    cv2.COLOR_BGR2RGB))
                 dimensions = min(img.size, self.frame_size)
-                frame.configure(image=ImageTk.PhotoImage(img, size=dimensions))
+                frame.configure(image=ck.CTkImage(img, size=dimensions))
             else:
                 break
         self.running = False
