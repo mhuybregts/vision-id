@@ -26,9 +26,12 @@ class Analyzer:
             for filename in os.listdir(f"{self.known_faces_dir}/{name}"):
                 path = f"{self.known_faces_dir}/{name}/{filename}"
                 image = fr.load_image_file(path)
-                encdoding = fr.face_encodings(image)[0]
-                self.known_faces.append(encdoding)
-                self.known_names.append(name)
+                try:
+                    encoding = fr.face_encodings(image)[0]
+                    self.known_faces.append(encoding)
+                    self.known_names.append(name)
+                except IndexError:
+                    continue
 
     def analyze_frame(self, image):
 

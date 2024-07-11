@@ -2,6 +2,7 @@
 
 1. Document code
 2. Update starting page to display text rather than an image
+3. Test on Linux machine (use pyudev for listing cameras?)
 
 ## Image Analyzer
 
